@@ -5,9 +5,18 @@
 #include <flagUtil.h>
 #include <solverUtil.h>
 
+class PoissonSolver;
+
 
 class Solver
 {	
+private:
+	class Param
+	{
+	public:
+		PoissonSolver* m_poissonSolver = nullptr;
+	};
+
 public:
 	Solver();
 	virtual ~Solver();
@@ -21,8 +30,8 @@ private:
 	SOLVER_METHODE m_methode = SOLVER_METHODE::FFT;
 	FlagUtil::PROCESSING m_processing = FlagUtil::PROCESSING::CPU;
 	int m_size[3] = { 1, 1, 1 };
-
-
+	Solver::Param* m_param = nullptr;
+	FlagUtil::RET paramInit();
 
 };
 

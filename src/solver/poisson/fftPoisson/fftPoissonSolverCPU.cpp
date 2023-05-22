@@ -4,6 +4,32 @@
 #include <memUtil.h>
 #include <ioUtil.h>
 #include <fftwUtil.h>
+
+#include <fftPoissonSolverCPU.h>
+
+FFTPoissonSolverCPU::FFTPoissonSolverCPU()
+{
+}
+
+FFTPoissonSolverCPU::~FFTPoissonSolverCPU()
+{
+
+}
+
+FlagUtil::RET FFTPoissonSolverCPU::paramInit()
+{
+	if (m_param) return FlagUtil::RET::OK;
+	m_param = new FFTPoissonSolverCPU::Param();
+	m_param->m_dim = DataUtil::getDim(m_size);
+
+	m_param->m_fftLaplacian = new FFTLaplacian();
+	m_param->m_fftLaplacian->setSize(m_size);
+	// void init();
+
+	return FlagUtil::RET::OK;
+}
+
+/*
 #include <fftPoissonCPU.h>
 
 
@@ -138,3 +164,4 @@ RETURN FFTPoissonCPU::paramRelease()
 	DELETE(param)
 	return RETURN::SUCCESS;
 }
+*/
