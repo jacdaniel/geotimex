@@ -63,7 +63,8 @@ add_executable (geotimex
  "src/solver/poisson/poissonSolver.cpp" 
  "src/solver/poisson/poissonSolver.h" 
  "src/solver/poisson/fftPoisson/fftPoissonSolver.cpp" 
- "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h")
+ "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h"
+ "src/operators/operatorNablaT.cpp" "src/operators/operatorNablaT.h" "src/operators/operatorNablaT.hpp"  "src/debugIO/debugIO.hpp" "src/solver/solverUtil.h" "src/dataUtil/flagUtil.h" "src/solver/poisson/poissonSolver.cpp" "src/solver/poisson/poissonSolver.h" "src/solver/poisson/fftPoisson/fftPoissonSolver.cpp" "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h")
 
 
 MESSAGE("ok2")

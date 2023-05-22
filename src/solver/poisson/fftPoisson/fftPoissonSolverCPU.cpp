@@ -62,10 +62,8 @@ void FFTPoissonSolverCPU::run()
 	for (long add = 0; add < m_param->m_size0; add++)	freq[add] *= lap[add];
 	fftw_execute(m_param->m_pInv);
 	for (int i = 0; i < m_param->m_size0; i++) out[i] /= m_param->m_norm;
+	// for (int i = 0; i < m_param->m_size0; i++) fprintf(stderr, "%d %f\n", i, out[i]);
 }
-
-// data->inv_lap = poisson_fourier_inverse_laplacian_create(0, width - 1, 0, depth - 1, width * 2, depth * 2, lambda, mu);
-
 
 /*
 #include <fftPoissonCPU.h>

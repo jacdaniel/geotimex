@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <malloc.h>
 
 #include <debugIO.h>
 #include <operatorNabla.h>
@@ -15,16 +16,19 @@ void testReconstruction1d()
 	int size[] = { 101, 1, 1 };
 	long size0 = (long)size[0] * size[1] * size[2];
 
-	Solver* solver = new Solver();
-	solver->setType(SOLVER_TYPE::POISSON);
-	solver->setProcessing(FlagUtil::PROCESSING::CPU);
-	solver->setSize(size);
-
+	/*
 	double* dipx = new double[size0];
 	double* tau = new double[size0];
 	double* dtau = new double[size0];
 	double* res = new double[size0];
 	double* div = new double[size0];
+	*/
+
+	double* dipx = (double*)calloc(size0, sizeof(double));
+	double* tau = (double*)calloc(size0, sizeof(double));
+	double* dtau = (double*)calloc(size0, sizeof(double));
+	double* res = (double*)calloc(size0, sizeof(double));
+	double* div = (double*)calloc(size0, sizeof(double));
 
 	int xseed = 50;
 	int yseed = 150;
@@ -39,8 +43,17 @@ void testReconstruction1d()
 	for (int i = size0-5; i < size0; i++) fprintf(stderr, "%d - %f %f\n", i, res[i], div[i]);
 	dataSave<double>("d:\\JACK2\\DEBUG\\res", res, size);
 
+	Solver* solver = new Solver();
+	solver->setType(SOLVER_TYPE::POISSON);
+	solver->setProcessing(FlagUtil::PROCESSING::CPU);
+	solver->setSize(size);
+	solver->setDataIn((void*)div);
+	solver->setDataOut((void*)tau);
+	solver->run();
 
 
 
-	delete[] dipx;
+
+	// delete[] dipx;
+	std::cout << __FUNCTION__ << std::endl;
 }

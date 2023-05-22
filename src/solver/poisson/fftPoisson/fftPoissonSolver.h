@@ -27,6 +27,8 @@ public:
 private:
 	void* m_dataIn = nullptr;
 	void* m_dataOut = nullptr;
+
+private:
 	FlagUtil::PROCESSING m_processing = FlagUtil::PROCESSING::CPU;
 	int m_size[3] = { 1, 1, 1 };
 	FFTPoissonSolver::Param* m_param = nullptr;
