@@ -35,6 +35,7 @@ public:
 
 	void init();
 	void* getData();
+	void* getInvData();
 	
 
 private:

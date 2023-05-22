@@ -4,10 +4,10 @@
 
 
 #ifndef OPERATORNABLATX1D_TYPE_I
-#define OPERATORNABLATX1D_TYPE_I(f, size, g) { g[0] = -f[0]; for (long add=1; add<(size)-1; add++) g[add] = f[add-1] - f[add]; g[(size)-1] = -f[(size)-2]; }
+#define OPERATORNABLATX1D_TYPE_I(f, size, g) { g[0] = -f[0]; for (long add=1; add<(size)-1; add++) g[add] = f[add-1] - f[add]; g[(size)-1] = f[(size)-2]; }
 #endif
 #ifndef OPERATORNABLATX_TYPE_I
-#define OPERATORNABLATX_TYPE_I(f, size, offset, g)  { g[0] = -f[0]; for (long add=1; add<(size)-1; add++) g[add] = f[add-offset] - f[add]; g[(size)-1] = -f[(size)-2*offset]; }
+#define OPERATORNABLATX_TYPE_I(f, size, offset, g)  { g[0] = -f[0]; for (long add=1; add<(size)-1; add++) g[add] = f[add-offset] - f[add]; g[(size)-1] = f[(size)-2*offset]; }
 #endif
 
 template <typename T> void operatorNablaTX_type_I(T* f, long size, T* g)

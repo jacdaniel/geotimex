@@ -46,7 +46,7 @@ RETURN FFTLaplacian::paramInit1D()
 	if (param == nullptr || param->invLaplacian == nullptr) return RETURN::FAIL;
 	for (int x = 0; x < param->size0; x++)
 	{
-		double wx = 2.0 * M_PI * (double)x / (double)param->size0;
+		double wx = 2.0 * M_PI * (double)x / (double)param->size0 / 2.0;
 		double wz = 0.0;
 		double l1 = -4.0 + 2.0 * cos(wx) + 2.0 * cos(wz);
 		double l2 = 6.0 - 8.0 * cos(wx) + 2.0 * cos(2.0 * wx);
@@ -54,6 +54,11 @@ RETURN FFTLaplacian::paramInit1D()
 		// l2 = 20.0 - 16.0 * cos(wx) - 16.0 * cos(wz) + 8.0 * cos(wx) * cos(wz) + 2.0 * cos(2.0 * wx) + 2.0 * cos(2.0 * wz);
 		double val = l1 -vars.mu * l2 - vars.lambda;
 		((double*)param->laplacian)[x] = val;
+	}
+	((double*)param->invLaplacian)[0] = 0.0;
+	for (long i = 1; i < param->size0; i++)
+	{
+		((double*)param->invLaplacian)[i] = 1.0 / ((double*)param->laplacian)[i];
 	}
 	return RETURN::SUCCESS;
 }
@@ -131,4 +136,10 @@ void* FFTLaplacian::getData()
 {
 	if (!param) return nullptr;
 	return param->laplacian;
+}
+
+void* FFTLaplacian::getInvData()
+{
+	if (!param) return nullptr;
+	return param->invLaplacian;
 }

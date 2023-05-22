@@ -3,10 +3,10 @@
 #define __SOLVER_UTIL__
 
 
-enum SOLVER_TYPE  { POISSON = 0, LAPLACE };
-enum SOLVER_METHODE { FFT = 0, CG };
+enum class SOLVER_TYPE  { POISSON = 0, LAPLACE };
+enum class SOLVER_METHODE { FFT = 0, CG };
 
-enum Color { red, green, blue };
+// enum Color { red, green, blue };
 
 
 

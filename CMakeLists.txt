@@ -46,7 +46,7 @@ add_executable (geotimex
 "geotimex.cpp" 
 "src/solver/solver.cpp" "src/solver/solver.h" 
 "src/geotimeUtil/geotimeFlags.h"
-"src/solver/poisson/fftPoisson/fftPoissonCPU.cpp"  
+"src/solver/poisson/fftPoisson/fftPoissonSolverCPU.cpp"  
 "src/geotimeUtil/returnFlags.h"  
 "src/dataUtil/dataUtil.cpp" "src/dataUtil/dataUtil.h"
 "src/dataUtil/memUtil.h" 
@@ -58,7 +58,12 @@ add_executable (geotimex
  "src/operators/oparatorExtract.cpp" "src/operators/operatorExtract.h" "src/operators/operatorNabla.hpp"
  "test/src/test.cpp"
  "test/src/geotime/reconstruction/testReconstruction1d.cpp" 
- "src/operators/operatorNablaT.cpp" "src/operators/operatorNablaT.h" "src/operators/operatorNablaT.hpp"  "src/debugIO/debugIO.hpp" "src/solver/solverUtil.h" "src/dataUtil/flagUtil.h" "src/solver/poisson/poissonSolver.cpp" "src/solver/poisson/poissonSolver.h")
+ "src/operators/operatorNablaT.cpp" "src/operators/operatorNablaT.h" "src/operators/operatorNablaT.hpp" 
+ "src/debugIO/debugIO.hpp" "src/solver/solverUtil.h" "src/dataUtil/flagUtil.h" 
+ "src/solver/poisson/poissonSolver.cpp" 
+ "src/solver/poisson/poissonSolver.h" 
+ "src/solver/poisson/fftPoisson/fftPoissonSolver.cpp" 
+ "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h")
 
 
 MESSAGE("ok2")

@@ -6,6 +6,7 @@ class FlagUtil
 {
 public:
 	enum class PROCESSING { CPU, GPU };
+	enum class RET { OK, FAIL };
 
 
 };
