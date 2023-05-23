@@ -20,6 +20,8 @@ set(GEOTIMEX_INCLUDES
 			${CMAKE_CURRENT_SOURCE_DIR}/src/solver
 			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/poisson
 			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/poisson/fftPoisson
+			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/conjugateGradient
+			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/gradientDescent
 
 			${CMAKE_CURRENT_SOURCE_DIR}/src/operators
 
@@ -28,6 +30,7 @@ set(GEOTIMEX_INCLUDES
 			${CMAKE_CURRENT_SOURCE_DIR}/test/src/laplacian
 			${CMAKE_CURRENT_SOURCE_DIR}/test/src/geotime
 			${CMAKE_CURRENT_SOURCE_DIR}/test/src/geotime/reconstruction
+			${CMAKE_CURRENT_SOURCE_DIR}/test/src/utest
 			 )
 
 # set (FFTW3_INCLUDE "d:/JACK2/TOOLCHAIN/fftw3/include/)
@@ -64,7 +67,13 @@ add_executable (geotimex
  "src/solver/poisson/poissonSolver.h" 
  "src/solver/poisson/fftPoisson/fftPoissonSolver.cpp" 
  "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h"
- "src/operators/operatorNablaT.cpp" "src/operators/operatorNablaT.h" "src/operators/operatorNablaT.hpp"  "src/debugIO/debugIO.hpp" "src/solver/solverUtil.h" "src/dataUtil/flagUtil.h" "src/solver/poisson/poissonSolver.cpp" "src/solver/poisson/poissonSolver.h" "src/solver/poisson/fftPoisson/fftPoissonSolver.cpp" "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h")
+ "src/operators/operatorNablaT.cpp" "src/operators/operatorNablaT.h" "src/operators/operatorNablaT.hpp"  
+ "src/debugIO/debugIO.hpp" "src/solver/solverUtil.h" "src/dataUtil/flagUtil.h" "src/solver/poisson/poissonSolver.cpp" 
+ "src/solver/poisson/poissonSolver.h" "src/solver/poisson/fftPoisson/fftPoissonSolver.cpp"
+ "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h"
+ 
+ "test/src/utest/utConjugateGradient.cpp"
+ "test/src/utest/utConjugateGradient.h" "test/src/utest/utConjugateGradientCallBack.hpp" "test/src/utest/utConjugateGradientCallBack.h"  "src/solver/gradientDescent/gradientDescent.h" "src/solver/gradientDescent/gradientDescent.hpp" "test/src/utest/utGradientDescent.cpp" "src/solver/gradientDescent/gradientDescentCallBack.h" "test/src/utest/utGradientDescentCallBack.hpp" "test/src/utest/utGradientDescentCallBack.h" "test/src/geotime/reconstruction/testReconstruction2d.cpp")
 
 
 MESSAGE("ok2")

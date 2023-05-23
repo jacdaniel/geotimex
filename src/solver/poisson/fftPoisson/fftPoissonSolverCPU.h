@@ -39,6 +39,7 @@ private:
 	int m_size[3] = { 1, 1, 1 };
 	FlagUtil::RET paramInit();
 	FlagUtil::RET param1DInit();
+	FlagUtil::RET param2DInit();
 
 };
 

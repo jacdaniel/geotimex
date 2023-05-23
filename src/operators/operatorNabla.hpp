@@ -33,6 +33,7 @@ template <typename T> void operatorNablaX_Type_I(T* f, int dimx, int dimy, int d
 	}
 }
 
+/*
 template <typename T> void operatorNablaY_Type_I(T* f, int dimx, int dimy, int dimz, T* g)
 {
 	for (int z = 0; z < dimz; z++)
@@ -48,11 +49,30 @@ template <typename T> void operatorNablaY_Type_I(T* f, int dimx, int dimy, int d
 		}
 	}
 }
+*/
+
+template <typename T> void operatorNablaY_Type_I(T* f, int dimx, int dimy, int dimz, T* g)
+{
+	for (int z = 0; z < dimz; z++)
+	{
+		for (int x = 0; x < dimx; x++)
+		{
+			
+			for (int y = 0; y < dimx-1; y++)
+			{
+				long add0 = (long)dimx * dimy * z + (long)dimx * y + x;
+				g[add0] = f[add0 + dimx] - f[add0];
+			}
+			long add0 = (long)dimx * dimy * z + (long)dimx * (dimy-1) + x;
+			g[add0] = (T)0;
+		}
+	}
+}
 
 template <typename T> void operatorNablaZ_Type_I(T* f, int dimx, int dimy, int dimz, T* g)
 {
 	long offset = (long)dimx * dimy;
-	for (int y = 0; y < dimy; z++)
+	for (int y = 0; y < dimy; y++)
 	{
 		for (int x = 0; x < dimx; x++)
 		{

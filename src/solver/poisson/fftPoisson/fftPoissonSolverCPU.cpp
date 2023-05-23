@@ -5,6 +5,7 @@
 #include <ioUtil.h>
 #include <fftwUtil.h>
 
+#include <debugIO.h>
 #include <fftPoissonSolverCPU.h>
 
 FFTPoissonSolverCPU::FFTPoissonSolverCPU()
@@ -22,6 +23,18 @@ FlagUtil::RET FFTPoissonSolverCPU::param1DInit()
 	m_param->m_pDir = fftw_plan_r2r_1d(m_param->m_size0, (double*)m_dataIn, (double*)m_param->m_freq, FFTW_REDFT10, FFTW_ESTIMATE);
 	m_param->m_pInv = fftw_plan_r2r_1d(m_param->m_size0, (double*)m_param->m_freq, (double*)m_dataOut, FFTW_REDFT01, FFTW_ESTIMATE);
 	m_param->m_norm = 2.0 * m_param->m_size0;
+	if (m_param->m_pDir && m_param->m_pInv)
+		return FlagUtil::RET::OK;
+	else return FlagUtil::RET::FAIL;
+}
+
+FlagUtil::RET FFTPoissonSolverCPU::param2DInit()
+{
+	fprintf(stderr, "ok\n");
+	if (m_param == nullptr) return FlagUtil::RET::FAIL;
+	m_param->m_pDir = fftw_plan_r2r_2d(m_size[1], m_size[0], (double*)m_dataIn, (double*)m_param->m_freq, FFTW_REDFT10, FFTW_REDFT10, FFTW_ESTIMATE);
+	m_param->m_pInv = fftw_plan_r2r_2d(m_size[1], m_size[0], (double*)m_param->m_freq, (double*)m_dataOut, FFTW_REDFT01, FFTW_REDFT01,FFTW_ESTIMATE);
+	m_param->m_norm = 4.0 * m_param->m_size0;
 	if (m_param->m_pDir && m_param->m_pInv)
 		return FlagUtil::RET::OK;
 	else return FlagUtil::RET::FAIL;
@@ -46,6 +59,10 @@ FlagUtil::RET FFTPoissonSolverCPU::paramInit()
 	{
 		ret = param1DInit();
 	}
+	else if (m_param->m_dim == DataUtil::DATA_DIM::DIM_2D)
+	{
+		ret = param2DInit();
+	}
 
 	return ret;
 }
@@ -62,7 +79,14 @@ void FFTPoissonSolverCPU::run()
 	for (long add = 0; add < m_param->m_size0; add++)	freq[add] *= lap[add];
 	fftw_execute(m_param->m_pInv);
 	for (int i = 0; i < m_param->m_size0; i++) out[i] /= m_param->m_norm;
+
+	double *tmp = (double*)m_param->m_fftLaplacian->getData();
+	dataSave<double>("d:\\JACK2\\DEBUG\\lp2d", tmp, m_size);
+	for (int i = 0; i < 60; i++)
+		fprintf(stderr, "--> %d %f\n", i, tmp[i]);
+	
 	// for (int i = 0; i < m_param->m_size0; i++) fprintf(stderr, "%d %f\n", i, out[i]);
+	// for (int i = 0; i < m_param->m_size0; i++) fprintf(stderr, "%d %f\n", i, 1.0/lap[i]);
 }
 
 /*

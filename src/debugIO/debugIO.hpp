@@ -9,7 +9,7 @@
 template <typename T> void dataSave(std::string filename, T* data, int dimx, int dimy, int dimz)
 {
 	std::string path = filename + "_" + std::to_string(dimx) + "x" + std::to_string(dimy) + "x" + std::to_string(dimz) + ".raw";
-	FILE* pf = fopen(path.c_str(), "w");
+	FILE* pf = fopen(path.c_str(), "wb");
 	if (pf == nullptr) return;
 	fwrite((const void*)data, sizeof(T), (size_t)dimx * dimy * dimz, pf);
 	fclose(pf);
