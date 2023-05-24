@@ -30,7 +30,6 @@ FlagUtil::RET FFTPoissonSolverCPU::param1DInit()
 
 FlagUtil::RET FFTPoissonSolverCPU::param2DInit()
 {
-	fprintf(stderr, "ok\n");
 	if (m_param == nullptr) return FlagUtil::RET::FAIL;
 	m_param->m_pDir = fftw_plan_r2r_2d(m_size[1], m_size[0], (double*)m_dataIn, (double*)m_param->m_freq, FFTW_REDFT10, FFTW_REDFT10, FFTW_ESTIMATE);
 	m_param->m_pInv = fftw_plan_r2r_2d(m_size[1], m_size[0], (double*)m_param->m_freq, (double*)m_dataOut, FFTW_REDFT01, FFTW_REDFT01,FFTW_ESTIMATE);
@@ -82,8 +81,8 @@ void FFTPoissonSolverCPU::run()
 
 	double *tmp = (double*)m_param->m_fftLaplacian->getData();
 	dataSave<double>("d:\\JACK2\\DEBUG\\lp2d", tmp, m_size);
-	for (int i = 0; i < 60; i++)
-		fprintf(stderr, "--> %d %f\n", i, tmp[i]);
+	// for (int i = 0; i < 60; i++)
+	//	fprintf(stderr, "--> %d %f\n", i, tmp[i]);
 	
 	// for (int i = 0; i < m_param->m_size0; i++) fprintf(stderr, "%d %f\n", i, out[i]);
 	// for (int i = 0; i < m_param->m_size0; i++) fprintf(stderr, "%d %f\n", i, 1.0/lap[i]);

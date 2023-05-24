@@ -58,7 +58,7 @@ template <typename T> void operatorNablaY_Type_I(T* f, int dimx, int dimy, int d
 		for (int x = 0; x < dimx; x++)
 		{
 			
-			for (int y = 0; y < dimx-1; y++)
+			for (int y = 0; y < dimy-1; y++)
 			{
 				long add0 = (long)dimx * dimy * z + (long)dimx * y + x;
 				g[add0] = f[add0 + dimx] - f[add0];

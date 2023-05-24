@@ -3,6 +3,11 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+
+
 set (TOOL_CHAIN_PATH "d:/JACK2/TOOLCHAIN")
 set (FFTW3_PATH ${TOOL_CHAIN_PATH}/fftw3)
 
@@ -11,6 +16,39 @@ set (FFTW3_LIBRARIES ${FFTW3_PATH}/lib64/)
 SET(FFTW3_FULLLIBS ${FFTW3_LIBRARIES}/libfftw3-3.lib)
 SET(FFTW3_LIBS libfftw3-3.lib)
 
+MESSAGE("ok")
+MESSAGE( ${TOOL_CHAIN_PATH})
+MESSAGE (${FFTW3_INCLUDE})
+project ("geotimex")
+
+#find_package(OpenMP)
+#if(OpenMP_CXX_FOUND)
+    #target_link_libraries(geotimex PUBLIC OpenMP::OpenMP_CXX)
+#endif()
+
+
+
+# find_package(OpenMP REQUIRED)
+# # target_link_libraries(geotimex PRIVATE OpenMP::OpenMP_CXX)
+# # set(OpenMP_CXX_FLAGS "-Xclang -fopenmp" CACHE STRING "" FORCE)
+# # set(OpenMP_C_FLAGS "-Xclang -fopenmp" CACHE STRING "" FORCE)
+# set(OpenMP_LIBRARY_DIR "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/lib/x64")
+# set(OpenMP_CXX_FLAGS "-Xclang -openmp" CACHE STRING "" FORCE)
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+# link_directories(${OpenMP_LIBRARY_DIR})
+
+find_package(OpenMP REQUIRED)
+if (OPENMP_FOUND)
+    message(STATUS "----------------")
+    message(STATUS "OPENMP CXX_FLAGS:\n" ${OpenMP_CXX_FLAGS})
+    message(STATUS "OPENMP CMAKE_EXE_LINKER_FLAGS:\n" ${OpenMP_EXE_LINKER_FLAGS})
+    message(STATUS "----------------")
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+else(OPENMP_FOUND)
+    message(FATAL_ERROR "Please set OPENMP_FOUND.")
+endif(OPENMP_FOUND)
 
 
 
@@ -22,6 +60,8 @@ set(GEOTIMEX_INCLUDES
 			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/poisson/fftPoisson
 			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/conjugateGradient
 			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/gradientDescent
+			${CMAKE_CURRENT_SOURCE_DIR}/src/surfaceReconstruction
+			${CMAKE_CURRENT_SOURCE_DIR}/src/dipManager
 
 			${CMAKE_CURRENT_SOURCE_DIR}/src/operators
 
@@ -36,13 +76,6 @@ set(GEOTIMEX_INCLUDES
 # set (FFTW3_INCLUDE "d:/JACK2/TOOLCHAIN/fftw3/include/)
 
 
-
-MESSAGE("ok")
-MESSAGE( ${TOOL_CHAIN_PATH})
-MESSAGE (${FFTW3_INCLUDE})
-
-
-project ("geotimex")
 
 # Ajoutez une source à l'exécutable de ce projet.
 add_executable (geotimex 
@@ -73,7 +106,7 @@ add_executable (geotimex
  "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h"
  
  "test/src/utest/utConjugateGradient.cpp"
- "test/src/utest/utConjugateGradient.h" "test/src/utest/utConjugateGradientCallBack.hpp" "test/src/utest/utConjugateGradientCallBack.h"  "src/solver/gradientDescent/gradientDescent.h" "src/solver/gradientDescent/gradientDescent.hpp" "test/src/utest/utGradientDescent.cpp" "src/solver/gradientDescent/gradientDescentCallBack.h" "test/src/utest/utGradientDescentCallBack.hpp" "test/src/utest/utGradientDescentCallBack.h" "test/src/geotime/reconstruction/testReconstruction2d.cpp")
+ "test/src/utest/utConjugateGradient.h" "test/src/utest/utConjugateGradientCallBack.hpp" "test/src/utest/utConjugateGradientCallBack.h"  "src/solver/gradientDescent/gradientDescent.h" "src/solver/gradientDescent/gradientDescent.hpp" "test/src/utest/utGradientDescent.cpp" "src/solver/gradientDescent/gradientDescentCallBack.h" "test/src/utest/utGradientDescentCallBack.hpp" "test/src/utest/utGradientDescentCallBack.h" "test/src/geotime/reconstruction/testReconstruction2d.cpp" "src/surfaceReconstruction/surfaceReconstruction.cpp" "src/surfaceReconstruction/surfaceReconstruction.h" "test/src/utest/utSurfaceReconstruction.cpp" "src/dipManager/dipManager.cpp" "src/dipManager/dipManager.h")
 
 
 MESSAGE("ok2")
@@ -82,7 +115,7 @@ MESSAGE(${FFTW3_FULLLIBS})
 
 target_include_directories("geotimex" PRIVATE ${GEOTIMEX_INCLUDES} ${FFTW3_INCLUDE} )
 link_directories(${FFTW3_LIBRARIES})
-target_link_libraries("geotimex" PRIVATE ${FFTW3_FULLLIBS} )
+target_link_libraries("geotimex" PRIVATE ${FFTW3_FULLLIBS}  )
 # target_link_libraries("geotimex" ${FFTW3_FULLLIBS} )
 
 
