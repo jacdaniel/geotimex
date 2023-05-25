@@ -7,6 +7,9 @@
 #include <utConjugateGradient.h>
 #include <utGradientDescent.h>
 #include <utSurfaceReconstruction.h>
+#include <utRgtVolumic3d.h>
+#include <utRgtVolumic2d.h>
+#include <utXt.h>
 
 int test(int argc, char** argv)
 {
@@ -16,6 +19,9 @@ int test(int argc, char** argv)
 	// testReconstruction2d();
 	// utConjugateGradient();
 	// utGradientDescent();
-	utSurfaceReconstruction();
+	// utSurfaceReconstruction();
+	utRgtVolumic3d();
+	// utRgtVolumic2d();
+	//	utXt();
 	return 1;
 }

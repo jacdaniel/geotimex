@@ -39,6 +39,7 @@ project ("geotimex")
 
 find_package(OpenMP REQUIRED)
 if (OPENMP_FOUND)
+    set(OpenMP_CXX_FLAGS "-openmp" CACHE STRING "" FORCE) # comment to set default
     message(STATUS "----------------")
     message(STATUS "OPENMP CXX_FLAGS:\n" ${OpenMP_CXX_FLAGS})
     message(STATUS "OPENMP CMAKE_EXE_LINKER_FLAGS:\n" ${OpenMP_EXE_LINKER_FLAGS})
@@ -62,8 +63,14 @@ set(GEOTIMEX_INCLUDES
 			${CMAKE_CURRENT_SOURCE_DIR}/src/solver/gradientDescent
 			${CMAKE_CURRENT_SOURCE_DIR}/src/surfaceReconstruction
 			${CMAKE_CURRENT_SOURCE_DIR}/src/dipManager
-
 			${CMAKE_CURRENT_SOURCE_DIR}/src/operators
+			${CMAKE_CURRENT_SOURCE_DIR}/src/rgtVolumic
+			${CMAKE_CURRENT_SOURCE_DIR}/src/signal
+			${CMAKE_CURRENT_SOURCE_DIR}/src/signal/leakyIntegration
+			${CMAKE_CURRENT_SOURCE_DIR}/src/dataio
+			${CMAKE_CURRENT_SOURCE_DIR}/src/dataio/xt
+			${CMAKE_CURRENT_SOURCE_DIR}/src/util
+			
 
 			${CMAKE_CURRENT_SOURCE_DIR}/src/debugIO
 			${CMAKE_CURRENT_SOURCE_DIR}/test/src
@@ -106,7 +113,14 @@ add_executable (geotimex
  "src/solver/poisson/fftPoisson/fftPoissonSolverCPU.h"
  
  "test/src/utest/utConjugateGradient.cpp"
- "test/src/utest/utConjugateGradient.h" "test/src/utest/utConjugateGradientCallBack.hpp" "test/src/utest/utConjugateGradientCallBack.h"  "src/solver/gradientDescent/gradientDescent.h" "src/solver/gradientDescent/gradientDescent.hpp" "test/src/utest/utGradientDescent.cpp" "src/solver/gradientDescent/gradientDescentCallBack.h" "test/src/utest/utGradientDescentCallBack.hpp" "test/src/utest/utGradientDescentCallBack.h" "test/src/geotime/reconstruction/testReconstruction2d.cpp" "src/surfaceReconstruction/surfaceReconstruction.cpp" "src/surfaceReconstruction/surfaceReconstruction.h" "test/src/utest/utSurfaceReconstruction.cpp" "src/dipManager/dipManager.cpp" "src/dipManager/dipManager.h")
+ "test/src/utest/utConjugateGradient.h" "test/src/utest/utConjugateGradientCallBack.hpp" "test/src/utest/utConjugateGradientCallBack.h" 
+ "src/solver/gradientDescent/gradientDescent.h" "src/solver/gradientDescent/gradientDescent.hpp" "test/src/utest/utGradientDescent.cpp" 
+ "src/solver/gradientDescent/gradientDescentCallBack.h" "test/src/utest/utGradientDescentCallBack.hpp" "test/src/utest/utGradientDescentCallBack.h"
+ "test/src/geotime/reconstruction/testReconstruction2d.cpp" "src/surfaceReconstruction/surfaceReconstruction.cpp" "src/surfaceReconstruction/surfaceReconstruction.h" 
+ "test/src/utest/utSurfaceReconstruction.cpp" "src/dipManager/dipManager.cpp" "src/dipManager/dipManager.h" "src/rgtVolumic/rgtVolumic.cpp" 
+ "src/rgtVolumic/rgtVolumic.hpp" "src/rgtVolumic/rgtVolumicConjugateGradientCallBack.h" "src/rgtVolumic/rgtVolumicConjugateGradientCallBack.hpp" 
+ "test/src/utest/utRgtVolumic3d.h" "test/src/utest/utRgtVolumic3d.cpp"
+ "src/signal/leakyIntegration/leakyIntegration.h" "src/operators/operatorInsert.cpp" "src/dataio/xt/xt.cpp" "src/dataio/xt/xt.h" "test/src/utest/utXt.cpp" "test/src/utest/utXt.h" "test/src/utest/utRgtVolumic2d.cpp" "test/src/utest/utRgtVolumic2d.h" "src/solver/solverCallback.h" "src/solver/solverCallBack.hpp"   "src/signal/dataThreshold.hpp" "src/util/stringUtil.h" "src/util/stringUtil.cpp" "src/util/voxel.cpp" "src/util/voxel.h" "src/util/constraint.h" "src/util/constraint.cpp")
 
 
 MESSAGE("ok2")

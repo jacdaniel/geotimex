@@ -5,8 +5,12 @@
 #include <flagUtil.h>
 #include <solverUtil.h>
 
-class PoissonSolver;
 
+class PoissonSolver;
+class SolverCallBack;
+
+// todo
+// callback ?
 
 class Solver
 {	
@@ -26,6 +30,7 @@ public:
 	void setSize(int* size) { m_size[0] = size[0]; m_size[1] = size[1]; m_size[2] = size[2]; }
 	void setDataIn(void* data) { m_dataIn = data; }
 	void setDataOut(void* data) { m_dataOut = data; }
+	void setCallBack(SolverCallBack* callback) { m_callBack = callback;  }
 	void run();
 
 private:
@@ -37,6 +42,7 @@ private:
 	int m_size[3] = { 1, 1, 1 };
 	Solver::Param* m_param = nullptr;
 	FlagUtil::RET paramInit();
+	SolverCallBack* m_callBack = nullptr;
 };
 
 

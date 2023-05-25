@@ -12,6 +12,8 @@
 #include <string.h>
 #include <math.h>
 #include <malloc.h>
+#include <debugIO.h>
+
 
 #include "conjugateGradient.h"
 
@@ -119,15 +121,24 @@ template <typename T> FlagUtil::RET ConjugateGradient<T>::run()
 		param->r[add] = rhs[add] - param->tmp[add];
 	}
 
+	dataSave<double>("D:\\JACK2\\DEBUG\\r", (double*)param->r, size3D);
+
+
 	iter = 0;
 	// m_callback->setIter(iter);
 	fprintf(stderr, "cg init preconditionner start\n");
 	m_callback->preconditionner(param->r, param->z);
 	fprintf(stderr, "cg init preconditionner end\n");
 	rho0 = dot(param->r, m_size0, param->z);
+
+	dataSave<double>("D:\\JACK2\\DEBUG\\z", (double*)param->z, size3D);
 	while (cont)
 	{
-		fprintf(stderr, "iter: %d\n", iter);
+		if ( iter % 10 == 0)
+		{
+			double crit = m_callback->getCrit(x);
+			fprintf(stderr, "iter: %d / %d [ %f ]\n", iter, m_nbIter, crit);
+		}
 		// callback->setIter(iter);
 		// callback->Fonctionnelle(x, iter);
 

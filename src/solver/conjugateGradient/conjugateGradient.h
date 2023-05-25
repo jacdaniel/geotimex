@@ -54,6 +54,7 @@ public:
 	~ConjugateGradient();
 	
 	void setSize(long size) { m_size0 = size; }
+	void setSize3d(int* size) { for (int i = 0; i < 3; i++) size3D[i] = size[i]; }
 	void setCallback(ConjugateGradientCallBack<T> *callback) { m_callback = callback; }
 	void setNbiter(int nbiter) { m_nbIter = nbiter;  }
 	void setRhs(T* v) { rhs = (T*)v; }

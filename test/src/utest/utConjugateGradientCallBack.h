@@ -13,7 +13,7 @@ public:
 	virtual ~UtConjugateGradientCallBack();
 
 	void callBack(void* in, void* out);
-	void preconditionner(void* in, void* out);
+	void preconditionner(void *in, void *out);
 
 
 
