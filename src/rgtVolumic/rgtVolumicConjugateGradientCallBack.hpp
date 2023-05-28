@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <omp.h>
+#include <constraint.h>
 #include <leakyIntegration.hpp>
 #include <rgtVolumicConjugateGradientCallBack.h>
 
@@ -40,14 +41,17 @@ template <typename T> void RgtVolumicConjugateGradientCallBack<T>::callBack(void
 
 template <typename T> void RgtVolumicConjugateGradientCallBack<T>::preconditionner(void* in, void* out)
 {
+	memcpy(out, in, m_size0 * sizeof(T));
+	isoValueConstraintApply(out);
 	if (m_leakyIntegrator)
 	{
 		// fprintf(stderr, "leaky\n");
-		m_leakyIntegrator->run((T*)in, (T*)out);
+		m_leakyIntegrator->run((T*)out, (T*)out);
+		isoValueConstraintApply(out);
 	}
 	else
 	{
-		memcpy(out, in, m_size0 * sizeof(T));
+		// memcpy(out, in, m_size0 * sizeof(T));
 	}
 }
 
@@ -63,6 +67,7 @@ template <typename T> void RgtVolumicConjugateGradientCallBack<T>::getTauInit(T*
 			}
 		}
 	}
+	isoValueConstraintApply((void*)data);
 }
 
 template <typename T> void RgtVolumicConjugateGradientCallBack<T>::tauToS(T* data)
@@ -347,6 +352,46 @@ template <typename T> double RgtVolumicConjugateGradientCallBack<T>::critVal(T* 
 	val += m_epsilon2 * dx * dx;
 	return val;
 }
+
+template <typename T> void RgtVolumicConjugateGradientCallBack<T>::isoValueConstraintApply(void* _data)
+{
+	if (!m_constraint) return;
+	T* data = (T*)_data;
+	if (data == nullptr) return;
+	size_t N = m_constraint->getNbre();
+	for (size_t n = 0; n < N; n++)
+	{
+		std::vector<VOXEL> constr = m_constraint->getConstraint(n);
+		double v = 0.0;
+		long nbre = 0;
+		for (size_t i = 0; i < constr.size(); i++)
+		{
+			long x = constr[i].x;
+			long y = constr[i].y;
+			long z = constr[i].z;
+			if ( x >= 0 && x < m_size[0] && y >= 0 && y < m_size[1] && z >=0 && z < m_size[2] )
+			{
+				long add = (long)m_size[0] * m_size[1] * z + (long)m_size[0] * y + x;
+				v += data[add];
+				nbre++;
+			}
+		}
+		if (nbre == 0) continue;
+		v /= (double)nbre;
+		for (size_t i = 0; i < constr.size(); i++)
+		{
+			long x = constr[i].x;
+			long y = constr[i].y;
+			long z = constr[i].z;
+			if (x >= 0 && x < m_size[0] && y >= 0 && y < m_size[1] && z >= 0 && z < m_size[2])
+			{
+				long add = (long)m_size[0] * m_size[1] * z + (long)m_size[0] * y + x;
+				data[add] = (T)v;
+			}
+		}
+	}
+}
+
 
 /*
 template <typename T> double RgtVolumicConjugateGradientCallBack<T>::critVal(T* data, int x, int y, int z)

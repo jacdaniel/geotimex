@@ -65,6 +65,8 @@ void RgtVolumic::run()
 	callback->setSize(m_param->size0);
 	callback->setDipxy(m_dipxy);
 	callback->setDipxz(m_dipxz);
+	callback->setConstraint(m_constraint);
+
 	callback->getRhs((double*)m_param->rhs);
 	callback->getTauInit((double*)m_tau);
 	callback->tauToS((double*)m_tau);

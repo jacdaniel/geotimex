@@ -3,6 +3,8 @@
 #define __RGTVOLUMIC__
 
 // class Solver;
+
+class Constraint;
 template <typename T> class LeakyIntegration;
 
 class RgtVolumic
@@ -28,6 +30,7 @@ public:
 	void setTau(void* tau) { m_tau = tau; }
 	void setLeakyC(double val) { m_leakyC = val; }
 	void setDipThreshold(double val) { m_dipThreshold = val;  }
+	void setConstraint(Constraint *constraint) { m_constraint = constraint;  }
 	void run();
 
 	private:
@@ -42,6 +45,7 @@ public:
 		double m_dipThreshold = 2.0;
 		bool paramInit();
 		bool paramRelease();
+		Constraint *m_constraint = nullptr;
 };
 
 

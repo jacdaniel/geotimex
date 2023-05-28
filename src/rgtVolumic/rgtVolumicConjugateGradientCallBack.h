@@ -6,7 +6,7 @@
 #include <conjugateGradientCallBack.h>
 
 template <typename T> class LeakyIntegration;
-
+class Constraint;
 
 
 template <typename T> class RgtVolumicConjugateGradientCallBack : public ConjugateGradientCallBack<T>
@@ -27,6 +27,9 @@ public:
 	void setEpsilon(double epsilon) { m_epsilon = epsilon; m_epsilon2 = m_epsilon * m_epsilon; }
 	void setLeakyIntegrator(LeakyIntegration<T>* data) { m_leakyIntegrator = data; }
 	double getCrit(T *data);
+	void setConstraint(Constraint* constraint) { m_constraint = constraint; }
+	void isoValueConstraintApply(void* _data);
+
 
 private:
 	void* m_dipxy = nullptr;
@@ -41,7 +44,7 @@ private:
 	T opDirect(T* data, int x, int y, int z);
 	LeakyIntegration<T>* m_leakyIntegrator = nullptr;
 	double critVal(T* data, int x, int y, int z);
-
+	Constraint* m_constraint = nullptr;
 };
 
 

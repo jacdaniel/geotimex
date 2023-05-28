@@ -1,9 +1,10 @@
 
 #include <stdio.h>
+#include <vector>
 #include <rgtVolumic.h>
 #include <xt.h>
 #include <debugIO.h>
-
+#include <constraint.h>
 #include <utRgtVolumic3d.h>
 
 void utRgtVolumic3d()
@@ -30,13 +31,22 @@ void utRgtVolumic3d()
 	short* dipxz = new short[size0];
 	double* tau = new double[size0];
 	double epsilon = 0.5;
-	int nbIter = 100000;
+	int nbIter = 3000;
 	double leakyC = 70.0;
 
 	xtxy.readSubVolume(x1, x2, y1, y2, z1, z2, dipxy);
 	xtxz.readSubVolume(x1, x2, y1, y2, z1, z2, dipxz);
 	Xt xtSeismic = Xt(seismicPath);
 	xtSeismic.readSubVolume(x1, x2, y1, y2, z1, z2, seismic);
+
+	Constraint* constr = new Constraint();
+	std::vector<VOXEL> c0;
+	VOXEL voxel;
+	voxel.x = 60; voxel.y = 20;  voxel.z = 4;
+	c0.push_back(voxel);
+	voxel.x = 64; voxel.y = 90;  voxel.z = 4;
+	c0.push_back(voxel);
+	constr->addConstraint(c0);
 
 	RgtVolumic* rgtVolumic = new RgtVolumic();
 	rgtVolumic->setSize(size);
@@ -47,6 +57,7 @@ void utRgtVolumic3d()
 	rgtVolumic->setTau(tau);
 	rgtVolumic->setLeakyC(leakyC);
 	rgtVolumic->setDipThreshold(2.0);
+	rgtVolumic->setConstraint(constr);
 	rgtVolumic->run();
 	delete rgtVolumic;
 

@@ -5,11 +5,19 @@
 #include <vector>
 #include <voxel.h>
 
-typedef struct _CONSTRAINT
+class Constraint
 {
-	std::vector<VOXEL> voxels;
+public:
+	Constraint();
+	virtual ~Constraint();
+	std::vector<std::vector<VOXEL>> m_voxels;
 	short vmean = 0;
-}CONSTRAINT;
+	size_t getNbre() { return m_voxels.size(); }
+	size_t getNbre(long n) { if (n >= 0 && n < m_voxels.size()) return m_voxels[n].size(); else return -1; }
+	std::vector<VOXEL> getConstraint(int n) { if (n >= 0 && n < m_voxels.size()) return m_voxels[n]; else return std::vector<VOXEL>();  }
+
+	void addConstraint(std::vector<VOXEL>& constraint) { m_voxels.push_back(constraint); }
+};
 
 
 #endif
